@@ -4,7 +4,6 @@ namespace ValidatorDocs;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
-use ValidatorDocs\Rules as Rules;
 use ValidatorDocs\Support\Macros;
 
 /**
