@@ -1,7 +1,7 @@
 {
     "name": "pijler/validator-docs",
     "type": "library",
-    "description": "This package provides validations for documents in Brazil",
+    "description": "This package provides validations for documents in Brazil.",
     "keywords": [
         "docs",
         "laravel",
