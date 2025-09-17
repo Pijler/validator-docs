@@ -15,14 +15,6 @@ use ValidatorDocs\Support\Macros;
 class ServiceProvider extends LaravelServiceProvider
 {
     /**
-     * Register the service provider.
-     */
-    public function register(): void
-    {
-        $this->registerTranslations();
-    }
-
-    /**
      * Bootstrap the application events.
      */
     public function boot(): void
@@ -30,6 +22,8 @@ class ServiceProvider extends LaravelServiceProvider
         Macros::register();
 
         $this->bootRules();
+
+        $this->bootTranslations();
     }
 
     /**
@@ -49,9 +43,9 @@ class ServiceProvider extends LaravelServiceProvider
     }
 
     /**
-     * Register the package translations.
+     * Boot the package translations.
      */
-    private function registerTranslations(): void
+    private function bootTranslations(): void
     {
         $this->loadTranslationsFrom($this->srcDir('lang'), 'docs');
 
