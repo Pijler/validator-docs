@@ -68,7 +68,9 @@ class ServiceProvider extends LaravelServiceProvider
                 return $rule->passes($attribute, $value);
             };
 
-            $this->app['validator']->extend($name, $extension, $rule->message());
+            $this->app['validator']->extend($name, $extension);
+
+            $this->app['validator']->replacer($name, fn () => $rule->message());
         });
     }
 
