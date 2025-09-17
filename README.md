@@ -115,4 +115,8 @@ Caso você precise verificar o formato do dinheiro conforme alguma regra em espe
 
 Qualquer melhoria ou correção, poderá abrir um PR ou Issue.
 
+### 📝 Licença
+
+Código aberto sob a [licença MIT](LICENSE).
+
 ## 🚀 Obrigado!
