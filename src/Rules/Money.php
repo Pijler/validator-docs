@@ -13,16 +13,6 @@ class Money implements Rule
     use WithParameters;
 
     /**
-     * The callback that should be used to validate the locale.
-     */
-    public static $localeCallback;
-
-    /**
-     * The callback that should be used to validate the currency.
-     */
-    public static $currencyCallback;
-
-    /**
      * Determine if the validation rule passes.
      */
     public function passes($attribute, $value): bool
@@ -36,22 +26,6 @@ class Money implements Rule
     public function message(): string
     {
         return Helpers::getMessage('money');
-    }
-
-    /**
-     * Set callback to get locale to be used in the validation rule.
-     */
-    public static function setLocaleCallback(callable $callback): void
-    {
-        static::$localeCallback = $callback;
-    }
-
-    /**
-     * Set callback to get currency to be used in the validation rule.
-     */
-    public static function setCurrencyCallback(callable $callback): void
-    {
-        static::$currencyCallback = $callback;
     }
 
     /**
@@ -71,9 +45,7 @@ class Money implements Rule
      */
     private function getLocale(): mixed
     {
-        $default = data_get($this->parameters, '1');
-
-        return with($default, static::$localeCallback);
+        return data_get($this->parameters, '1');
     }
 
     /**
@@ -81,8 +53,6 @@ class Money implements Rule
      */
     private function getCurrency(): mixed
     {
-        $default = data_get($this->parameters, '0', 'USD');
-
-        return with($default, static::$currencyCallback);
+        return data_get($this->parameters, '0', 'USD');
     }
 }
