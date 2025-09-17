@@ -10,7 +10,7 @@ Este pacote foi inspirado em outros dois pacotes, mas foi criado pela necessidad
 Para fazer a instalação do pacote, rode o comando:
 
 ```bash
-    composer require jp-system/validator-docs
+    composer require pijler/validator-docs
 ```
 
 ### 📦 Customização
