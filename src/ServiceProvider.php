@@ -15,11 +15,11 @@ use ValidatorDocs\Support\Macros;
 class ServiceProvider extends LaravelServiceProvider
 {
     /**
-     * Bootstrap the application events.
+     * Bootstrap any application services.
      */
     public function boot(): void
     {
-        Macros::register();
+        Macros::boot();
 
         $this->bootRules();
 

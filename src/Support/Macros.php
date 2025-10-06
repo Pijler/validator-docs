@@ -9,9 +9,9 @@ use ValidatorDocs\Rules;
 class Macros
 {
     /**
-     * Register the custom macros.
+     * Boot the custom macros.
      */
-    public static function register(): void
+    public static function boot(): void
     {
         /**
          * String
