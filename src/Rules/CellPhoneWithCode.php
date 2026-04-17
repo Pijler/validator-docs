@@ -2,24 +2,27 @@
 
 namespace ValidatorDocs\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use ValidatorDocs\Support\Helpers;
 
-class CellPhoneWithCode implements Rule
+class CellPhoneWithCode implements ValidationRule
 {
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        return preg_match('/^[+]\d{1,2}\s?\(\d{2}\)\s?\d{4,5}\-\d{4}$/', $value) > 0;
+        if ($this->passes($value) === false) {
+            $fail(Helpers::getMessage('cellphone_with_code'));
+        }
     }
 
     /**
-     * Get the validation error message.
+     * Determine if the validation rule passes.
      */
-    public function message(): string
+    protected function passes(mixed $value): bool
     {
-        return Helpers::getMessage('cellphone_with_code');
+        return preg_match('/^[+]\d{1,2}\s?\(\d{2}\)\s?\d{4,5}\-\d{4}$/', $value) > 0;
     }
 }

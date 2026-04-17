@@ -2,38 +2,49 @@
 
 namespace ValidatorDocs\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
-use ValidatorDocs\Formats\CNPJ as FormatsCNPJ;
 use ValidatorDocs\Support\Helpers;
 use ValidatorDocs\Traits\WithParameters;
 
-class CNPJ implements Rule
+class CNPJ implements ValidationRule
 {
     use WithParameters;
 
     /**
+     * Run the validation rule.
+     */
+    public function validate(string $attribute, mixed $value, Closure $fail): void
+    {
+        if ($this->passes($value) === false) {
+            $fail(Helpers::getMessage('cnpj'));
+        }
+    }
+
+    /**
      * Determine if the validation rule passes.
      */
-    public function passes($attribute, $value): bool
+    protected function passes(mixed $value): bool
+    {
+        return $this->checkFormatted($value)
+            && $this->checkCNPJ(Str::onlyNumbers($value));
+    }
+
+    /**
+     * Check if the value is formatted.
+     */
+    private function checkFormatted(mixed $value): bool
     {
         if (! $this->hasFormat()) {
-            return $this->checkCNPJ(Str::onlyNumbers($value));
+            return true;
         }
 
-        return (new FormatsCNPJ)->formatted($value) && $this->checkCNPJ(Str::onlyNumbers($value));
+        return preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $value) > 0;
     }
 
     /**
-     * Get the validation error message.
-     */
-    public function message(): string
-    {
-        return Helpers::getMessage('cnpj');
-    }
-
-    /**
-     * Determine if the CNPJ is valid.
+     * Check if the CNPJ is valid.
      */
     private function checkCNPJ(mixed $c): bool
     {

@@ -2,24 +2,27 @@
 
 namespace ValidatorDocs\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use ValidatorDocs\Support\Helpers;
 
-class CEP implements Rule
+class CEP implements ValidationRule
 {
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        return preg_match('/^\d{2}\.?\d{3}-\d{3}$/', $value) > 0;
+        if ($this->passes($value) === false) {
+            $fail(Helpers::getMessage('cep'));
+        }
     }
 
     /**
-     * Get the validation error message.
+     * Determine if the validation rule passes.
      */
-    public function message(): string
+    protected function passes(mixed $value): bool
     {
-        return Helpers::getMessage('format_cep');
+        return preg_match('/^\d{2}\.?\d{3}-\d{3}$/', $value) > 0;
     }
 }

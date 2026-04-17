@@ -2,34 +2,45 @@
 
 namespace ValidatorDocs\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
-use ValidatorDocs\Formats\CPF as FormatsCPF;
 use ValidatorDocs\Support\Helpers;
 use ValidatorDocs\Traits\WithParameters;
 
-class CPF implements Rule
+class CPF implements ValidationRule
 {
     use WithParameters;
 
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (! $this->hasFormat()) {
-            return $this->checkCPF(Str::onlyNumbers($value));
+        if ($this->passes($value) === false) {
+            $fail(Helpers::getMessage('cpf'));
         }
-
-        return (new FormatsCPF)->formatted($value) && $this->checkCPF(Str::onlyNumbers($value));
     }
 
     /**
-     * Get the validation error message.
+     * Determine if the validation rule passes.
      */
-    public function message(): string
+    protected function passes(mixed $value): bool
     {
-        return Helpers::getMessage('cpf');
+        return $this->checkFormatted($value)
+            && $this->checkCPF(Str::onlyNumbers($value));
+    }
+
+    /**
+     * Check if the value is formatted.
+     */
+    private function checkFormatted(mixed $value): bool
+    {
+        if (! $this->hasFormat()) {
+            return true;
+        }
+
+        return preg_match('/^\d{3}\.\d{3}\.\d{3}-\d{2}$/', $value) > 0;
     }
 
     /**
