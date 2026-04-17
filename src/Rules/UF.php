@@ -2,27 +2,28 @@
 
 namespace ValidatorDocs\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use ValidatorDocs\Enum\StateEnum;
 use ValidatorDocs\Support\Helpers;
 
-class UF implements Rule
+class UF implements ValidationRule
 {
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        return collect(StateEnum::cases())
-            ->map(fn (StateEnum $item) => $item->value)
-            ->contains($value);
+        if ($this->passes($value) === false) {
+            $fail(Helpers::getMessage('uf'));
+        }
     }
 
     /**
-     * Get the validation error message.
+     * Determine if the validation rule passes.
      */
-    public function message(): string
+    protected function passes(mixed $value): bool
     {
-        return Helpers::getMessage('uf');
+        return collect(StateEnum::cases())->pluck('value')->contains($value);
     }
 }

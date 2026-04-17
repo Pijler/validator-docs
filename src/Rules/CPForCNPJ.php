@@ -2,28 +2,44 @@
 
 namespace ValidatorDocs\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use ValidatorDocs\Support\Helpers;
 use ValidatorDocs\Traits\WithParameters;
 
-class CPForCNPJ implements Rule
+class CPForCNPJ implements ValidationRule
 {
     use WithParameters;
 
     /**
-     * Determine if the validation rule passes.
+     * Run the validation rule.
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        return (new CPF)->parameters($this->parameters)->passes($attribute, $value)
-            || (new CNPJ)->parameters($this->parameters)->passes($attribute, $value);
+        if ($this->passes($attribute, $value) === false) {
+            $fail(Helpers::getMessage('cpf_or_cnpj'));
+        }
     }
 
     /**
-     * Get the validation error message.
+     * Determine if the validation rule passes.
      */
-    public function message(): string
+    protected function passes(string $attribute, mixed $value): bool
     {
-        return Helpers::getMessage('cpf_or_cnpj');
+        $cpfPasses = true;
+        (new CPF)->parameters($this->parameters)->validate($attribute, $value, function () use (&$cpfPasses): void {
+            $cpfPasses = false;
+        });
+
+        if ($cpfPasses) {
+            return true;
+        }
+
+        $cnpjPasses = true;
+        (new CNPJ)->parameters($this->parameters)->validate($attribute, $value, function () use (&$cnpjPasses): void {
+            $cnpjPasses = false;
+        });
+
+        return $cnpjPasses;
     }
 }

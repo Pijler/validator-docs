@@ -2,36 +2,31 @@
 
 namespace ValidatorDocs\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 use ValidatorDocs\Support\Helpers;
 use ValidatorDocs\Traits\WithParameters;
 
-class Money implements Rule
+class Money implements ValidationRule
 {
     use WithParameters;
 
     /**
+     * Run the validation rule.
+     */
+    public function validate(string $attribute, mixed $value, Closure $fail): void
+    {
+        if ($this->passes($value) === false) {
+            $fail(Helpers::getMessage('money'));
+        }
+    }
+
+    /**
      * Determine if the validation rule passes.
      */
-    public function passes($attribute, $value): bool
-    {
-        return $this->checkMoney($value);
-    }
-
-    /**
-     * Get the validation error message.
-     */
-    public function message(): string
-    {
-        return Helpers::getMessage('money');
-    }
-
-    /**
-     * Determine if the money is valid.
-     */
-    private function checkMoney(mixed $value): bool
+    protected function passes(mixed $value): bool
     {
         $money = Str::moneyValue($value);
 

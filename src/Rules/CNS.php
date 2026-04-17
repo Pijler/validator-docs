@@ -2,12 +2,26 @@
 
 namespace ValidatorDocs\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use ValidatorDocs\Support\Helpers;
 
-class CNS implements Rule
+class CNS implements ValidationRule
 {
-    public function passes($attribute, $cns)
+    /**
+     * Run the validation rule.
+     */
+    public function validate(string $attribute, mixed $cns, Closure $fail): void
+    {
+        if ($this->passes($cns) === false) {
+            $fail(Helpers::getMessage('cns'));
+        }
+    }
+
+    /**
+     * Determine if the validation rule passes.
+     */
+    protected function passes(mixed $cns): bool
     {
         if (! isset($cns[0])) {
             return false;
@@ -23,11 +37,19 @@ class CNS implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Validate CNS that starts with 7, 8, 9
      */
-    public function message(): string
+    protected function cnsProv(string $cns): bool
     {
-        return Helpers::getMessage('cns');
+        if (strlen($cns) != 15) {
+            return false;
+        }
+
+        for ($s = 0, $i = 0, $j = 15; $i < 15; $i++, $j--) {
+            $s += intval($cns[$i]) * $j;
+        }
+
+        return $s % 11 === 0;
     }
 
     /**
@@ -61,21 +83,5 @@ class CNS implements Rule
         }
 
         return $cns === $result;
-    }
-
-    /**
-     * Validate CNS that starts with 7, 8, 9
-     */
-    protected function cnsProv(string $cns): bool
-    {
-        if (strlen($cns) != 15) {
-            return false;
-        }
-
-        for ($s = 0, $i = 0, $j = 15; $i < 15; $i++, $j--) {
-            $s += intval($cns[$i]) * $j;
-        }
-
-        return $s % 11 === 0;
     }
 }

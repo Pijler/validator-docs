@@ -4,6 +4,7 @@ namespace ValidatorDocs;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+use ValidatorDocs\Support\Helpers;
 use ValidatorDocs\Support\Macros;
 
 /**
@@ -63,14 +64,20 @@ class ServiceProvider extends LaravelServiceProvider
             $rule = new $class;
 
             $extension = static function ($attribute, $value, $parameters) use ($rule) {
+                $failed = false;
+
                 $rule = static::getRule($rule, $parameters);
 
-                return $rule->passes($attribute, $value);
+                $rule->validate($attribute, $value, static function () use (&$failed): void {
+                    $failed = true;
+                });
+
+                return ! $failed;
             };
 
             $this->app['validator']->extend($name, $extension);
 
-            $this->app['validator']->replacer($name, fn () => $rule->message());
+            $this->app['validator']->replacer($name, fn () => Helpers::getMessage($name));
         });
     }
 

@@ -2,31 +2,26 @@
 
 namespace ValidatorDocs\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use ValidatorDocs\Support\Helpers;
 
-class CNH implements Rule
+class CNH implements ValidationRule
 {
+    /**
+     * Run the validation rule.
+     */
+    public function validate(string $attribute, mixed $value, Closure $fail): void
+    {
+        if ($this->passes($value) === false) {
+            $fail(Helpers::getMessage('cnh'));
+        }
+    }
+
     /**
      * Determine if the validation rule passes.
      */
-    public function passes($attribute, $value): bool
-    {
-        return $this->checkCNH($value);
-    }
-
-    /**
-     * Get the validation error message.
-     */
-    public function message(): string
-    {
-        return Helpers::getMessage('cnh');
-    }
-
-    /**
-     * Determine if the CNH is valid.
-     */
-    private function checkCNH(mixed $value): bool
+    protected function passes(mixed $value): bool
     {
         $ret = false;
 
