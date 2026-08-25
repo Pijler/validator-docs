@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
-use ValidatorDocs\ServiceProvider;
+use Pijler\ValidatorDocs\ServiceProvider;
 
 abstract class TestCase extends OrchestraTestCase
 {

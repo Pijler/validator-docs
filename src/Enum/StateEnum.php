@@ -1,6 +1,6 @@
 <?php
 
-namespace ValidatorDocs\Enum;
+namespace Pijler\ValidatorDocs\Enum;
 
 enum StateEnum: string
 {

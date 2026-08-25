@@ -1,6 +1,6 @@
 <?php
 
-namespace ValidatorDocs\Support;
+namespace Pijler\ValidatorDocs\Support;
 
 use Illuminate\Translation\Translator;
 

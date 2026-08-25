@@ -1,12 +1,12 @@
 <?php
 
-namespace ValidatorDocs\Rules;
+namespace Pijler\ValidatorDocs\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Str;
-use ValidatorDocs\Support\Helpers;
-use ValidatorDocs\Traits\WithParameters;
+use Pijler\ValidatorDocs\Support\Helpers;
+use Pijler\ValidatorDocs\Traits\WithParameters;
 
 class CNPJ implements ValidationRule
 {

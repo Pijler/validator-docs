@@ -1,6 +1,6 @@
 <?php
 
-namespace ValidatorDocs\Traits;
+namespace Pijler\ValidatorDocs\Traits;
 
 trait WithParameters
 {
