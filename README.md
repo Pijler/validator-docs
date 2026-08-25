@@ -1,4 +1,10 @@
-# 📌 Validator Docs
+<p align="center">
+<img src="https://raw.githubusercontent.com/Pijler/docs/main/assets/pijler-icon-dark.svg" height="100" alt="Pijler logo">
+</p>
+
+<h2><p align="center">Validator Docs</p></h2>
+
+### 🚀 Introduction
 
 Este pacote foi inspirado em outros dois pacotes, mas foi criado pela necessidade de uma customização melhor nas messages de validação e na validação dos formatos.
 
@@ -119,4 +125,4 @@ Qualquer melhoria ou correção, poderá abrir um PR ou Issue.
 
 Código aberto sob a [licença MIT](LICENSE).
 
-## 🚀 Obrigado!
+### 🚀 Obrigado!
