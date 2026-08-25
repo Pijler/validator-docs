@@ -1,10 +1,10 @@
 <?php
 
-namespace ValidatorDocs\Support;
+namespace Pijler\ValidatorDocs\Support;
 
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use ValidatorDocs\Rules;
+use Pijler\ValidatorDocs\Rules;
 
 class Macros
 {

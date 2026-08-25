@@ -1,11 +1,11 @@
 <?php
 
-namespace ValidatorDocs\Rules;
+namespace Pijler\ValidatorDocs\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use ValidatorDocs\Enum\StateEnum;
-use ValidatorDocs\Support\Helpers;
+use Pijler\ValidatorDocs\Enum\StateEnum;
+use Pijler\ValidatorDocs\Support\Helpers;
 
 class UF implements ValidationRule
 {

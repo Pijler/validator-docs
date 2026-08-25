@@ -1,11 +1,11 @@
 <?php
 
-namespace ValidatorDocs;
+namespace Pijler\ValidatorDocs;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
-use ValidatorDocs\Support\Helpers;
-use ValidatorDocs\Support\Macros;
+use Pijler\ValidatorDocs\Support\Helpers;
+use Pijler\ValidatorDocs\Support\Macros;
 
 /**
  * This pack was inspired by these packs:
